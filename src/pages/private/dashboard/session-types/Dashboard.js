@@ -1,3 +1,6 @@
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { 
     Typography,
     Box,
@@ -5,12 +8,9 @@ import {
     Button,
     CircularProgress
 } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { baseUrl } from 'shared/baseUrl';
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-import SessionTypesCard from 'components/content/SessionTypesCard';
 import { createToken } from 'hooks/useAxios';
+import SessionTypesCard from 'components/content/SessionTypesCard';
+import { baseUrl } from 'shared/baseUrl';
 
 export default function Dashboard() {
     const [response, setResponse] = useState(null);
@@ -41,21 +41,16 @@ export default function Dashboard() {
     
     return (
         <Box>
-            <Grid container mt={5} mb={6} sx={{display: 'flex', alignItems: 'center'}}>
-                <Grid item>
-                    <Typography variant="h4" mr={2} 
-                        sx={{
-                            "&:after": {
-                                content: '""',
-                                display: "block",
-                                borderBottom: "3px dotted #fe5244",
-                                transform: 'translateX(7px)'
-                            }
-                        }}>
+            <Grid container spacing={1} mt={3} mb={5} sx={{
+                        paddingLeft: "40px",
+                        paddingRight: "40px"
+                    }}>
+                <Grid item xs={12} sm={6} md={3} mb={1}>
+                    <Typography variant="h4" sx={{fontWeight: 'bold'}}>
                         Session Types
                     </Typography>
                 </Grid>
-                <Grid item ml={2}>
+                <Grid item >
                     <Button variant="outlined" color="inherit" to="/dashboard/session-types/create" component={Link} sx={{ borderRadius: 16 }}>+ Create new Session Type</Button>
                 </Grid>
                 {response && 

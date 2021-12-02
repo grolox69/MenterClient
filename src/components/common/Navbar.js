@@ -15,17 +15,27 @@ import {
     Divider,
     Tooltip,
     Avatar,
-    ListItemIcon
+    List,
+    ListItem,
+    ListItemText,
+    Drawer,
+    ListItemIcon,
 } from '@mui/material';
 import Logout from '@mui/icons-material/Logout';
+import MenuIcon from '@mui/icons-material/Menu';
+import MailIcon from '@mui/icons-material/Mail';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
-export default function Navbar() {
+const drawerWidth = 240;
+
+export default function Navbar(props) {
     
     const { loading, currentUser, logout } = useAuth();
     let location = useLocation();
     let val = location.pathname;
+
     if (["/dashboard/session-types","/dashboard/bookings","/integrations"].indexOf(location.pathname) <= -1) {
         val = false;
     }
@@ -39,19 +49,42 @@ export default function Navbar() {
         setAnchorEl(null);
     };
 
+    const { window } = props;
+    const [mobileOpen, setMobileOpen] = useState(false);
+
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
+
+    const container = window !== undefined ? () => window().document.body : undefined;
+
     return (
         
         <AppBar position="static" color="transparent" sx={{ boxShadow: 'none'}}>
-            <Toolbar component="nav" diplay="flex">
-                
+            <Toolbar sx={{display: 'flex'}}>
+                {(currentUser && !loading) && 
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="start"
+                        onClick={handleDrawerToggle}
+                        sx={{ mr: 2, display: { sm: 'none' } }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                }
+
                 <Typography variant="h4" component="div" >
                     <FancyLink to="/" component={Link} underline="none" color="inherit"> Menter </FancyLink>
                 </Typography>
                 
                 {(currentUser && !loading) ? (
                     <>
-                        <Tabs 
-                            sx={{ flexGrow: 1 }}
+                    <Box sx={{ display: 'flex', width: '100%' }}>
+                        <Box />
+                
+                        <Tabs
+                            sx={{flexGrow: 1, display: { xs:'none', md: 'block' }}}
                             indicatorColor="secondary"
                             textColor="inherit"
                             centered
@@ -62,11 +95,13 @@ export default function Navbar() {
                             <Tab label="Integrations" value="/integrations" component={NavLink} to="/integrations" />
                         </Tabs>
                         
-                        <Tooltip title="Account settings">
-                            <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
+                        
+                        <Tooltip title="Account settings" >
+                            <IconButton onClick={handleClick} size="small" sx={{ ml: 2, display: { xs:'none', md: 'block' } }}>
                                 <Avatar sx={{ width: 32, height: 32 }}>{currentUser.name[0]}</Avatar>
                             </IconButton>
                         </Tooltip>
+                        
                         <Menu
                             anchorEl={anchorEl}
                             open={open}
@@ -113,6 +148,53 @@ export default function Navbar() {
                                 Logout
                             </MenuItem>
                         </Menu>
+                    </ Box>
+                        <Drawer
+                            container={container}
+                            variant="temporary"
+                            open={mobileOpen}
+                            onClose={handleDrawerToggle}
+                            ModalProps={{
+                                keepMounted: true, // Better open performance on mobile.
+                            }}
+                            sx={{
+                                display: { xs: 'block', sm: 'none' },
+                                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                            }}
+                        >
+                            <Toolbar />
+                            <Divider />
+                            <List>
+                                <ListItem to="/dashboard/session-types" component={Link} button key="Dashboard">
+                                    
+                                    <ListItemText primary="Dashboard" />
+                                </ListItem>
+                                <ListItem to="/dashboard/bookings" component={Link} button key="Bookings">
+                                    
+                                    <ListItemText primary="Bookings" />
+                                </ListItem>
+                                <ListItem to="/integrations" component={Link} button key="Integrations">
+                                    
+                                    <ListItemText primary="Integrations" />
+                                </ListItem>
+                                <Divider />
+
+                                <ListItem to="/profile" component={Link} button key="Profile">
+                                    <ListItemIcon>
+                                        <Avatar sx={{ width: 28, height: 28 }} /> 
+                                    </ListItemIcon>
+                                    <ListItemText primary={currentUser.name} />
+                                </ListItem>
+
+                                <ListItem onClick={() => { logout()} } button key="Logout">
+                                    <ListItemIcon>
+                                        <Logout fontSize="small" /> 
+                                    </ListItemIcon>
+                                    <ListItemText primary="Logout" />
+                                </ListItem>
+                            </List>
+                            
+                    </Drawer>
                     </>
                     ) : (
                         <>

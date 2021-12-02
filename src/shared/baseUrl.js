@@ -1,1 +1,1 @@
-export const baseUrl = 'https://m3nt3r.herokuapp.com/';
+export const baseUrl = (process.env.NODE_ENV === 'production' ? 'https://m3nt3r.herokuapp.com/' : 'http://localhost:5000/');
