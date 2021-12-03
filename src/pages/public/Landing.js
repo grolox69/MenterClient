@@ -4,12 +4,13 @@ import MotionTextReveal from 'components/content/MotionTextReveal';
 import {
     Box,
     Typography,
+    Grid
 } from '@mui/material';
 
 export default function Landing() {
     return (
-        <Box sx={{ display: 'flex' }} >
-            <Box sx={{ pt: 8, pb: 6, flexGrow: 6}}>
+        <Grid container >
+            <Grid item md={5} sx={{ pt: 4, pr: 4, pl: 4 }}>
                 <Typography
                     component="h1"
                     variant="h2"
@@ -30,9 +31,11 @@ export default function Landing() {
                 <Box mt={5} >
                     <MotionTextReveal />
                 </Box>
-            </Box> 
+            </Grid> 
             
-            <MotionSVG figure={syncSVG} />
-        </Box>
+            <Grid item ml="auto">
+                <MotionSVG figure={syncSVG} />
+            </Grid>
+        </Grid>
     )
 }

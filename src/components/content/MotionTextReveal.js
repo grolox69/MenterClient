@@ -21,14 +21,12 @@ const letter = {
     },
 }
 
-const line1 = "Scheduling tutoring sessions made easy with Menter,";
-const line2 = "avoiding the back-and-forth emails so you can enjoy";
-const line3 = " a more productive day."
+const line = "Scheduling tutoring sessions made easy with Menter, avoiding the back-and-forth emails so you can enjoy a more productive day.";
 
 export default function MotionTextReveal() {
     return (
-        <Typography component={motion.h3} variants={sentence} initial="hidden" animate="visible" variant="h5" color="text.secondary" paragraph>
-            {line1.split("").map((char, index) => {
+        <Typography component={motion.h3} variants={sentence} initial="hidden" animate="visible" variant="h5" align="center" color="text.secondary" paragraph>
+            {line.split("").map((char, index) => {
                 return (
                     <motion.span key={char + "_" + index} variants={letter}>
                         {char}
@@ -36,21 +34,6 @@ export default function MotionTextReveal() {
                 )
             })}
             <br />
-            {line2.split("").map((char, index) => {
-                return (
-                    <motion.span key={char + + index} variants={letter}>
-                        {char}
-                    </motion.span>
-                )
-            })}
-            <br />
-            {line3.split("").map((char, index) => {
-                return (
-                    <motion.span key={char + + index} variants={letter}>
-                        {char}
-                    </motion.span>
-                )
-            })}
 
         </Typography>
     )
