@@ -6,9 +6,7 @@ import {
     TableCell,
     TableBody,
     TableRow,
-    TablePagination
 } from '@mui/material';
-import { useState } from 'react';
 
 const columns = [
     { id: 'date', label: 'Date', minWidth: 125 },

@@ -1,12 +1,10 @@
 import {
-  TextField,
-  Toolbar,
   Box,
   Grid,
   Button,
   Typography
 } from '@mui/material';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { 
   StaticDatePicker,
@@ -17,7 +15,7 @@ import { getSlots } from 'helpers/availabilities';
 
 const disableDate = (date, timeSlots) => {
   const d = new Date(date).toDateString();
-  if (timeSlots.some((slot) => slot.day == d)) {
+  if (timeSlots.some((slot) => slot.day === d)) {
     return false;
   } else {
     return true;
@@ -36,14 +34,14 @@ const getAvailableSlots = (allSlots) => {
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
     });
 
-    const exists = tmp.some((slot) => slot.day == day);
+    const exists = tmp.some((slot) => slot.day === day);
     if (!exists) {
       tmp.push({
         day: day,
         time: [time],
       });
     } else {
-      tmp.find((slot) => slot.day == day).time.push(time);
+      tmp.find((slot) => slot.day === day).time.push(time);
     }
   });
 
@@ -53,9 +51,9 @@ const getAvailableSlots = (allSlots) => {
 const getAvailableTimeSlots = (date, slots) => {
   const d = new Date(date).toDateString();
   const now = new Date();
-  const timeSlots = slots.find((slot) => slot.day == d);
+  const timeSlots = slots.find((slot) => slot.day === d);
   
-  if (timeSlots == undefined) {
+  if (timeSlots === undefined) {
     return [];
   } else {
     return timeSlots.time.filter((time) => new Date(d + " " + time) > now);

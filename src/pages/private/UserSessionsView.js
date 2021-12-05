@@ -22,9 +22,12 @@ export default function UserSessionsView() {
             flexDirection: 'column',
         }}>
             {response &&
-                <Box>
-                    <Avatar sx={{ width: 75, height: 75 }}>{response.name[0].toUpperCase()}</Avatar>
-                    <Typography variant="h4" mb={2} mt={2}>{response.name}'s Bookings</Typography>
+                <>
+                    <Box mb={2} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <Avatar sx={{ width: 75, height: 75 }}>{response.name[0].toUpperCase()}</Avatar>
+                        <Typography variant="h4" mb={2} mt={2}>{response.name}'s Bookings</Typography>
+                    </Box>
+
                     <Grid 
                         container
                         spacing={2}
@@ -37,7 +40,7 @@ export default function UserSessionsView() {
                         {response.sessionTypes.length > 0 ?
                             (
                                 response.sessionTypes.map((sessionType, i) => {
-                                    return (
+                                    return (sessionType.isEnabled &&
                                         <Grid item xs={12} sm={6} md={4} key={i} >
                                             <BookSessionCard sessionType={sessionType} />
                                         </Grid>
@@ -50,7 +53,7 @@ export default function UserSessionsView() {
                             )
                         }
                     </Grid>
-                </Box>
+                </>
             }
             {loading && 
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

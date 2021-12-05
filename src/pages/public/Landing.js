@@ -15,8 +15,7 @@ export default function Landing() {
                     component="h1"
                     variant="h2"
                     align="left"
-                    color="text.primary"
-                    
+                    color="text.primary"   
                 >
                     Simple session 
                 </Typography>
@@ -33,7 +32,7 @@ export default function Landing() {
                 </Box>
             </Grid> 
             
-            <Grid item ml="auto">
+            <Grid item ml="auto" sx={{ display: { xs: 'none', md: 'block' } }}>
                 <MotionSVG figure={syncSVG} />
             </Grid>
         </Grid>
