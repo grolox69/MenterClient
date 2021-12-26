@@ -1,17 +1,18 @@
 import {
     Typography,
-    Box
+    Box,
 } from '@mui/material';
 import SessionTypesForm from 'components/content/SessionTypesForm';
 
 export default function CreateSessionType() {
     return (
-        <Box mt={5}sx={{
+        <Box m={4} sx={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            justifyContent: 'center'
         }}>
-            <Typography variant="h4" mr={2} >
+            <Typography variant="h4" >
                     Create new session type
             </Typography>
             

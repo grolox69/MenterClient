@@ -13,8 +13,8 @@ export default function Profile() {
     
     return (
         <Box
+            m={4}
             sx={{
-                marginTop: 5,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',

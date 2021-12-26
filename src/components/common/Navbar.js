@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { styled } from '@mui/material/styles';
 import {
     AppBar,
     Toolbar,
@@ -22,11 +23,21 @@ import {
     ListItemIcon,
 } from '@mui/material';
 import Logout from '@mui/icons-material/Logout';
+import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 const drawerWidth = 240;
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+}));
 
 export default function Navbar(props) {
     
@@ -53,6 +64,10 @@ export default function Navbar(props) {
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
+
+    const handleDrawerClose = () => {
+        setMobileOpen(false);
+    }
 
     const container = window !== undefined ? () => window().document.body : undefined;
 
@@ -160,24 +175,25 @@ export default function Navbar(props) {
                                 '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
                             }}
                         >
-                            <Toolbar />
+                            <DrawerHeader>
+                                <IconButton onClick={handleDrawerClose}>
+                                    <CloseIcon />
+                                </IconButton>
+                            </DrawerHeader>
                             <Divider />
                             <List>
-                                <ListItem to="/dashboard/session-types" component={Link} button key="Dashboard">
-                                    
+                                <ListItem to="/dashboard/session-types" component={Link} button onClick={handleDrawerClose} key="Dashboard">
                                     <ListItemText primary="Dashboard" />
                                 </ListItem>
-                                <ListItem to="/dashboard/bookings" component={Link} button key="Bookings">
-                                    
+                                <ListItem to="/dashboard/bookings" component={Link} button onClick={handleDrawerClose} key="Bookings">
                                     <ListItemText primary="Bookings" />
                                 </ListItem>
-                                <ListItem to="/integrations" component={Link} button key="Integrations">
-                                    
+                                <ListItem to="/integrations" component={Link} button onClick={handleDrawerClose} key="Integrations">
                                     <ListItemText primary="Integrations" />
                                 </ListItem>
                                 <Divider />
 
-                                <ListItem to="/profile" component={Link} button key="Profile">
+                                <ListItem to="/profile" component={Link} button onClick={handleDrawerClose} key="Profile">
                                     <ListItemIcon>
                                         <Avatar sx={{ width: 28, height: 28 }} /> 
                                     </ListItemIcon>

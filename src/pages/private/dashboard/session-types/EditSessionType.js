@@ -14,12 +14,12 @@ export default function EditSessionType() {
     const {response, loading, error} = useAxiosFetch('dashboard/session-types/edit/'+id);
 
     return (
-        <Box mt={5}sx={{
+        <Box m={4} sx={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
         }}>
-            <Typography variant="h4" mr={2} >
+            <Typography variant="h4">
                     Edit session type
             </Typography>
 

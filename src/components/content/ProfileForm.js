@@ -3,7 +3,8 @@ import {
     InputLabel,
     FormGroup,
     Link as FancyLink,
-    Button
+    Button,
+    Grid
 } from '@mui/material';
 import TextInput from 'components/common/controls/TextInput';
 import { Link } from 'react-router-dom';
@@ -51,15 +52,18 @@ export default function ProfileForm({data}) {
     }
 
     return (
-        <Box
+        <Grid
+            container
+            spacing={2}
             component="form"
             noValidate
             autoComplete="off"
-            mt={5}
-            sx={{ width: '40%' }}
+            mt={2}
+            direction="column"
+            width={{xs: '100%', md: '40%'}}
             onSubmit={handleSubmit}
         >
-            <FormGroup sx={{ mb: 3 }}>
+            <Grid item xs={12} md={6} sx={{ mb: 3 }}>
                 <InputLabel htmlFor="vanity_name" sx={{ mb: 1 }} required> Your booking page link: </InputLabel >
                 <TextInput 
                     name="vanity_name"
@@ -76,9 +80,9 @@ export default function ProfileForm({data}) {
                     
                 />
                 <FancyLink underline="none" mt={0.5} to={"/"+values.vanity_name} component={Link}>Visit your booking page</FancyLink>
-            </FormGroup>
+            </Grid>
 
-            <FormGroup sx={{ mb: 2 }}>
+            <Grid item xs={12} md={6} sx={{ mb: 2 }}>
                 <InputLabel htmlFor="name" sx={{ mb: 1 }} required> Your name: </InputLabel >
                 <TextInput 
                     name="name"
@@ -87,9 +91,9 @@ export default function ProfileForm({data}) {
                     error={errors.name}
                     size="small"
                 />
-            </FormGroup>
+            </Grid>
 
-            <FormGroup sx={{ mb: 2 }}>
+            <Grid item xs={12} md={6} sx={{ mb: 2 }}>
                 <InputLabel htmlFor="email" sx={{ mb: 1 }}> Your email: </InputLabel >
                 <TextInput 
                     name="email"
@@ -99,9 +103,9 @@ export default function ProfileForm({data}) {
                     size="small"
                     disabled
                 />
-            </FormGroup>
+            </Grid>
 
-            <FormGroup sx={{ mb: 2 }}>
+            <Grid item xs={12} md={6} sx={{ mb: 2 }}>
                 <InputLabel htmlFor="title" sx={{ mb: 1 }}> Booking page title: </InputLabel >
                 <TextInput 
                     name="title"
@@ -109,9 +113,9 @@ export default function ProfileForm({data}) {
                     onChange={handleInputChange}
                     size="small" 
                 />
-            </FormGroup>
+            </Grid>
 
-            <FormGroup sx={{ mb: 2 }}>
+            <Grid item xs={12} md={6} sx={{ mb: 2 }}>
                 <InputLabel htmlFor="description" sx={{ mb: 1 }}> Booking page description: </InputLabel >
                 <TextInput 
                     name="description"
@@ -120,7 +124,7 @@ export default function ProfileForm({data}) {
                     multiline
                     rows={3}
                 />
-            </FormGroup>
+            </Grid>
 
             <Box sx={{
                     marginTop: 3,
@@ -136,6 +140,6 @@ export default function ProfileForm({data}) {
                     Save Changes
                 </Button>
             </Box>
-        </Box>
+        </Grid>
     )
 }

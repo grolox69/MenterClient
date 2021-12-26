@@ -1,8 +1,8 @@
 import {
     Box,
     InputLabel,
-    FormGroup,
     Button,
+    Grid,
 } from '@mui/material';
 import TextInput from 'components/common/controls/TextInput';
 import useForm from 'hooks/useForm';
@@ -64,84 +64,87 @@ export default function SessionTypesForm({isCreate, data}) {
     }
 
     return (
-        <>
-            <Box
-                component="form"
-                noValidate
-                autoComplete="off"
-                mt={5}
-                sx={{ width: '40%' }}
-                onSubmit={handleSubmit}
-            >
-                <FormGroup sx={{ mb: 2 }}>
-                    <InputLabel htmlFor="title" sx={{ mb: 1 }} required> Session name: </InputLabel >
-                    <TextInput 
-                        name="title"
-                        value={values.title}
-                        onChange={handleInputChange}
-                        error={errors.title}
-                        size="small"
-                    />
-                </FormGroup>
+        <Grid
+            container
+            spacing={2}
+            component="form"
+            noValidate
+            autoComplete="off"
+            mt={2}
+            direction="column"
+            width={{xs: '100%', md: '40%'}}
+            onSubmit={handleSubmit}
+        >
+            
+            <Grid item xs={12} md={6} sx={{ mb: 2 }}>
+                <InputLabel htmlFor="title" sx={{ mb: 1 }} required> Session name: </InputLabel >
+                <TextInput 
+                    name="title"
+                    value={values.title}
+                    onChange={handleInputChange}
+                    error={errors.title}
+                    size="small"
+                />
+            </Grid>
 
-                <FormGroup sx={{ mb: 2 }}>
-                    <InputLabel htmlFor="slug" sx={{ mb: 1 }} required> Session link: </InputLabel >
-                    <TextInput 
-                        name="slug"
-                        value={values.slug}
-                        onChange={handleInputChange}
-                        error={errors.slug}
-                        size="small"
-                        InputProps={{
-                            startAdornment: 
-                            <Box>
-                                https://menter.com/{currentUser.vanity_name}/
-                            </Box>
-                            
-                        }}
-                    />
-                </FormGroup>
+            <Grid item xs={12} md={6} sx={{ mb: 2 }}>
+                <InputLabel htmlFor="slug" sx={{ mb: 1 }} required> Session link: </InputLabel >
+                <TextInput 
+                    name="slug"
+                    value={values.slug}
+                    onChange={handleInputChange}
+                    error={errors.slug}
+                    size="small"
+                    InputProps={{
+                        startAdornment: 
+                        <Box>
+                            https://menter.com/{currentUser.vanity_name}/
+                        </Box>
+                        
+                    }}
+                />
+            </Grid>
 
-                <FormGroup sx={{ mb: 2 }}>
-                    <InputLabel htmlFor="description" sx={{ mb: 1 }}> Session description: </InputLabel >
-                    <TextInput 
-                        name="description"
-                        value={values.description}
-                        onChange={handleInputChange}
-                        multiline
-                        rows={3}
-                    />
-                </FormGroup>
+            <Grid item xs={12} md={6} sx={{ mb: 2 }}>
+                <InputLabel htmlFor="description" sx={{ mb: 1 }}> Session description: </InputLabel >
+                <TextInput 
+                    name="description"
+                    value={values.description}
+                    onChange={handleInputChange}
+                    multiline
+                    rows={3}
+                />
+            </Grid>
 
-                <FormGroup sx={{ mb: 2 }}>
-                    <InputLabel htmlFor="duration" sx={{ mb: 1 }} required> Session duration: </InputLabel >
-                    <TextInput 
-                        type="number"
-                        name="duration"
-                        value={values.duration}
-                        onChange={handleInputChange}
-                        {...(errors.duration && {error:true,helperText:errors.duration})}
-                        size="small"
-                        sx={{maxWidth: 100}}
-                        InputProps={{ inputProps: { min: 1 } }}
-                    />
-                </FormGroup>
-                {'TODO: Availabilities'}
-                <Box sx={{
-                    marginTop: 3,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}>
-                    <Button 
-                        variant="contained"
-                        type="submit"
-                    >
-                        Save Changes
-                    </Button>
-                </Box>
+            <Grid item xs={12} md={6} sx={{ mb: 2 }}>
+                <InputLabel htmlFor="duration" sx={{ mb: 1 }} required> Session duration: </InputLabel >
+                <TextInput 
+                    type="number"
+                    name="duration"
+                    value={values.duration}
+                    onChange={handleInputChange}
+                    {...(errors.duration && {error: true, helperText: errors.duration})}
+                    size="small"
+                    sx={{maxWidth: 100}}
+                    InputProps={{ inputProps: { min: 1 } }}
+                />
+            </Grid>
+            {'TODO: Availabilities'}
+            <Box sx={{
+                marginTop: 3,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}>
+                <Button 
+                    variant="contained"
+                    type="submit"
+                >
+                    Save Changes
+                </Button>
             </Box>
-        </>
+        </Grid>
+        
     )
 
 }
