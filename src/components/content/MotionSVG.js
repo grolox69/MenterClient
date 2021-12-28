@@ -18,6 +18,6 @@ const svgVariants = {
 
 export default function MotionSVG({figure}) {
     return (
-        <Box component={motion.img} src={figure} variants={svgVariants} initial="initial" animate="final" m={2} sx={{ width: 600 }} /> 
+        <Box component={motion.img} src={figure} variants={svgVariants} initial="initial" animate="final" m={2} sx={{ width: 600 }}/> 
     )
 }
