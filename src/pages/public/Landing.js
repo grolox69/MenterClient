@@ -12,10 +12,10 @@ export default function Landing() {
     return (
         <Container>
             <Grid container >
-                <Grid item md={5} sx={{ pt: 4, pr: 4, pl: 4 }}>
+                <Grid item md={5} mt={5} sx={{ pt: 4, pr: 4, pl: 4 }}>
                     <Typography
                         component="h1"
-                        variant="h3"
+                        variant="h2"
                         align="center"
                         color="text.primary"   
                     >
@@ -23,7 +23,7 @@ export default function Landing() {
                     </Typography>
                     <Typography
                         component="h1"
-                        variant="h3"
+                        variant="h2"
                         align="center"
                         color="primary"
                         gutterBottom

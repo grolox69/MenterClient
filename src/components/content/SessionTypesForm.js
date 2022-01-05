@@ -3,6 +3,10 @@ import {
     InputLabel,
     Button,
     Grid,
+    Typography,
+    Checkbox,
+    FormControlLabel,
+    Stack
 } from '@mui/material';
 import TextInput from 'components/common/controls/TextInput';
 import useForm from 'hooks/useForm';
@@ -10,40 +14,72 @@ import { toast } from 'react-toastify';
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from 'context/AuthContext';
 import { axiosPost } from 'hooks/useAxios';
+import { useEffect, useState, useRef } from 'react';
 
 export default function SessionTypesForm({isCreate, data}) {
-
+    
     const { currentUser } = useAuth();
     let navigate = useNavigate();
     let { id } = useParams();
 
     const initialValues = data;
-
+    
     const validate = (fieldValues = values) => {
         let tmpErrs = {...errors}
         if ('title' in fieldValues)
-            tmpErrs.title = fieldValues.title ? "" : "This field is required."
+        tmpErrs.title = fieldValues.title ? "" : "This field is required."
         if ('slug' in fieldValues)
-            tmpErrs.slug = fieldValues.slug ? "" : "This field is required."
+        tmpErrs.slug = fieldValues.slug ? "" : "This field is required."
         if ('duration' in fieldValues)
-            tmpErrs.duration = fieldValues.duration ? "" : "This field is required."
+        tmpErrs.duration = fieldValues.duration ? "" : "This field is required."
         setErrors({
             ...tmpErrs
         })
-
+        
         if (fieldValues === values)
-            return Object.values(tmpErrs).every(x => x === "");
+        return Object.values(tmpErrs).every(x => x === "");
     }
-
+    
     const {
         values,
         errors,
         setErrors,
         handleInputChange
     } = useForm(initialValues, validate);
-
+    
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        let availability = [];
+        days.forEach((day) => {
+            if (e.target[day+'_available'].checked){
+                let slots = [];
+                const slotsContainer = timesRef.current[days.indexOf(day)]
+                for (let i = 0; i < slotsContainer.children.length - 1; i++) {
+                    const start = e.target[day+'_startTime_'+i].value.split(":")
+                    const end = e.target[day+'_endTime_'+i].value.split(":")
+                    slots.push({
+                        startTime: {
+                            hour: start[0],
+                            minute: start[1]
+                        },
+                        endTime: {
+                            hour: end[0],
+                            minute: end[1]
+                        }
+                    })
+                }
+                availability.push({
+                    dayNumber: e.target[day+'_available'].value,
+                    slots: slots
+                })
+            }
+        })
+        
+        values.availability = availability;
+
         if (validate()) {
             if (isCreate) {
                 axiosPost('dashboard/session-types/create', values).then((result) => {
@@ -61,7 +97,53 @@ export default function SessionTypesForm({isCreate, data}) {
                 })
             }
         }
+    };
+
+    const timesRef = useRef([])
+
+    useEffect(() => {
+        timesRef.current = timesRef.current.slice(0, days.length);
+    }, [days])
+
+    const dayIsChecked = (initialValues) => {
+        let isChecked = new Array(days.length).fill(false)
+        if (Object.keys(initialValues).length !== 0) {
+            initialValues.availability.map((day) => {isChecked[day.dayNumber] = true})
+        }
+        return isChecked;
     }
+
+    const [daysChecked, setDaysChecked] = useState(
+        dayIsChecked(initialValues)
+    );
+
+    const handleCheckboxChange = (position) => {
+        let updatedDaysChecked = [...daysChecked];
+        updatedDaysChecked[position] = !updatedDaysChecked[position]
+        setDaysChecked(updatedDaysChecked)
+    }
+
+    const addTime = (day) => {
+        // console.log(day)
+        // const parent = document.getElementById(day+'_time');
+        // const child_container = parent.querySelector('#input_container');
+        // const child_input = parent.querySelector('#input_time');
+
+        // const new_input = child_input.cloneNode(true);
+        
+        // let delete_btn = document.createElement("button");
+        // delete_btn.innerHTML = "delete";
+        // delete_btn.type = "button"
+        // delete_btn.className = "text-sm font-medium text-blue-700 ml-2"
+        
+        // new_input.appendChild(delete_btn);
+        // delete_btn.onclick = function() {
+        //     child_container.removeChild(new_input)
+        // }
+        // child_container.appendChild(new_input)
+    }
+
+    
 
     return (
         <Grid
@@ -72,7 +154,7 @@ export default function SessionTypesForm({isCreate, data}) {
             autoComplete="off"
             mt={2}
             direction="column"
-            width={{xs: '100%', md: '40%'}}
+            width={{xs: '100%', md: '60%'}}
             onSubmit={handleSubmit}
         >
             
@@ -129,7 +211,92 @@ export default function SessionTypesForm({isCreate, data}) {
                     InputProps={{ inputProps: { min: 1 } }}
                 />
             </Grid>
-            {'TODO: Availabilities'}
+            <Grid item xs={12} md={6} p={2} sx={{ border: 1, borderColor: 'grey.300' }}>
+                <Typography mb={2} >
+                    When are you available for this session?
+                </Typography>
+                <Grid container spacing={3} direction="column">
+                    {days.map((day, index) => {
+                        const d = (values.availability ? values.availability.find(elt => elt.dayNumber === index) : undefined)
+                        return (
+                            <Grid item key={index} >
+                                <Grid container spacing={3} direction="row" >
+                                    <Grid item>
+                                        <Stack direction="row" alignItems="center">
+                                            <Checkbox id={day + "_available"} name="dayNumber" value={index} onChange={() => handleCheckboxChange(index)} checked={daysChecked[index]}   />
+                                            <Typography>{day}</Typography>
+                                        </Stack>
+                                    </Grid>
+                                    {daysChecked[index] ? (
+                                        d ? 
+                                        (<Grid item xs={7} ml="auto" ref={el => timesRef.current[index] = el} >
+                                            {(d.slots.map((slot, count) => {
+                                                return (
+                                                    <Box m={2} key={count}>
+                                                        <Stack direction="row">
+                                                            <TextInput    
+                                                                size="small"
+                                                                type="text"
+                                                                name="startTime"
+                                                                id={day + "_startTime_"+count}
+                                                                defaultValue={slot.startTime.hour + ":" + (slot.startTime.minute === 0 ? '00' : slot.startTime.minute)}
+                                                            />
+                                                            <Typography m={1}>-</Typography>
+                                                            <TextInput    
+                                                                size="small"
+                                                                type="text"
+                                                                name="endTime"
+                                                                id={day + "_endTime_"+count}
+                                                                defaultValue={slot.endTime.hour + ":" + (slot.endTime.minute === 0 ? '00' : slot.endTime.minute)}      
+                                                            />                                            
+                                                        </Stack>
+                                                        {(count > 0) && <Button>Delete</Button>}
+                                                    </Box>
+                                                )}))
+                                            }
+                                            <Box>
+                                                <Button onClick={addTime(day)}>+add time</Button>
+                                            </Box>
+                                        </Grid>
+                                        ) : (
+                                            <Grid item xs={7} ml="auto" ref={el => timesRef.current[index] = el}>
+                                                    <Box m={2}>
+                                                        <Stack direction="row">
+                                                            <TextInput    
+                                                                size="small"
+                                                                type="text"
+                                                                name="startTime"
+                                                                defaultValue="8:00"
+                                                                id={day + "_startTime_"+0}
+                                                            />
+                                                            <Typography m={1}>-</Typography>
+                                                            <TextInput    
+                                                                size="small"
+                                                                type="text"
+                                                                name="endTime"
+                                                                defaultValue="17:00" 
+                                                                id={day + "_endTime_"+0}     
+                                                            />                                            
+                                                        </Stack>
+                                                    </Box>
+                                                    <Box>
+                                                        <Button onClick={addTime(day)}>+add time</Button>
+                                                    </Box>
+                                                    
+                                                </Grid>
+                                        )
+                                        
+                                    ) : (
+                                        <Grid item ml="auto">
+                                            <Typography id={day + "_unavailable"}> Unavailable </Typography>
+                                        </Grid>
+                                    )}
+                                </Grid> 
+                            </Grid>
+                        )
+                    })}
+                </Grid>
+            </Grid>
             <Box sx={{
                 marginTop: 3,
                 display: 'flex',
