@@ -1,3 +1,4 @@
+import React, { useEffect, useState, useRef } from 'react';
 import {
     Box,
     InputLabel,
@@ -14,7 +15,6 @@ import { toast } from 'react-toastify';
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from 'context/AuthContext';
 import { axiosPost } from 'hooks/useAxios';
-import { useEffect, useState, useRef } from 'react';
 
 export default function SessionTypesForm({isCreate, data}) {
     
@@ -57,7 +57,7 @@ export default function SessionTypesForm({isCreate, data}) {
             if (e.target[day+'_available'].checked){
                 let slots = [];
                 const slotsContainer = timesRef.current[days.indexOf(day)]
-                for (let i = 0; i < slotsContainer.children.length - 1; i++) {
+                for (let i = 0; i < slotsContainer.children.length; i++) {
                     const start = e.target[day+'_startTime_'+i].value.split(":")
                     const end = e.target[day+'_endTime_'+i].value.split(":")
                     slots.push({
@@ -77,7 +77,6 @@ export default function SessionTypesForm({isCreate, data}) {
                 })
             }
         })
-        
         values.availability = availability;
 
         if (validate()) {
@@ -123,27 +122,23 @@ export default function SessionTypesForm({isCreate, data}) {
         setDaysChecked(updatedDaysChecked)
     }
 
-    const addTime = (day) => {
-        // console.log(day)
-        // const parent = document.getElementById(day+'_time');
-        // const child_container = parent.querySelector('#input_container');
-        // const child_input = parent.querySelector('#input_time');
-
-        // const new_input = child_input.cloneNode(true);
+    const addTime = (index) => {
+        const container = timesRef.current[index];
+        const new_input = container.children[0].cloneNode(true);
         
-        // let delete_btn = document.createElement("button");
-        // delete_btn.innerHTML = "delete";
-        // delete_btn.type = "button"
-        // delete_btn.className = "text-sm font-medium text-blue-700 ml-2"
+        new_input.children[0].children[0].children[0].childNodes[0].id = days[index] + '_startTime_' + parseInt(new_input.children[0].children[0].children[0].childNodes[0].id.slice(-1)+1)
+        new_input.children[0].children[2].children[0].childNodes[0].id = days[index] + '_endTime_' + parseInt(new_input.children[0].children[2].children[0].childNodes[0].id.slice(-1)+1)
         
-        // new_input.appendChild(delete_btn);
-        // delete_btn.onclick = function() {
-        //     child_container.removeChild(new_input)
-        // }
-        // child_container.appendChild(new_input)
+        let delete_btn = document.createElement('button');
+        delete_btn.innerHTML = "delete";
+        delete_btn.type = "button"
+        delete_btn.onclick = function() {
+            container.removeChild(new_input)
+        }
+        
+        new_input.appendChild(delete_btn);
+        container.appendChild(new_input);
     }
-
-    
 
     return (
         <Grid
@@ -229,7 +224,8 @@ export default function SessionTypesForm({isCreate, data}) {
                                     </Grid>
                                     {daysChecked[index] ? (
                                         d ? 
-                                        (<Grid item xs={7} ml="auto" ref={el => timesRef.current[index] = el} >
+                                        (<>
+                                        <Grid item xs={7} ml="auto" ref={el => timesRef.current[index] = el} >
                                             {(d.slots.map((slot, count) => {
                                                 return (
                                                     <Box m={2} key={count}>
@@ -254,12 +250,14 @@ export default function SessionTypesForm({isCreate, data}) {
                                                     </Box>
                                                 )}))
                                             }
-                                            <Box>
-                                                <Button onClick={addTime(day)}>+add time</Button>
-                                            </Box>
                                         </Grid>
+                                        <Box>
+                                            <Button id={index} onClick={(e) => addTime(e.target.id)}>+add time</Button>
+                                        </Box>
+                                        </>
                                         ) : (
-                                            <Grid item xs={7} ml="auto" ref={el => timesRef.current[index] = el}>
+                                            <>
+                                                <Grid item xs={7} ml="auto" ref={el => timesRef.current[index] = el}>
                                                     <Box m={2}>
                                                         <Stack direction="row">
                                                             <TextInput    
@@ -278,12 +276,13 @@ export default function SessionTypesForm({isCreate, data}) {
                                                                 id={day + "_endTime_"+0}     
                                                             />                                            
                                                         </Stack>
+                                                        
                                                     </Box>
-                                                    <Box>
-                                                        <Button onClick={addTime(day)}>+add time</Button>
-                                                    </Box>
-                                                    
                                                 </Grid>
+                                                <Box>
+                                                    <Button id={index} onClick={() => addTime(index)}>+add time</Button>
+                                                </Box>
+                                            </>
                                         )
                                         
                                     ) : (

@@ -18,7 +18,7 @@ export default function BookSession() {
         <Box>
             {response &&
                 <Grid container mt={5} sx={{justifyContent: 'flex-start'}}>
-                    <Grid item  display="flex" direction="column" >
+                    <Grid item sx={{ display: 'flex', flexDirection: 'column' }} >
                         <Typography variant="h3"> 
                             {response.user.name}
                         </Typography>
@@ -34,7 +34,7 @@ export default function BookSession() {
                         </Typography>
                     </Grid>
                     <Grid item ml={21}>
-                        <CalendarPicker sessionType={response.sessionType} />
+                        <CalendarPicker owner={response.user.name} sessionType={response.sessionType} />
                     </Grid>
                 </Grid>
             }
