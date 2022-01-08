@@ -7,6 +7,8 @@ import {
     TableBody,
     TableRow,
 } from '@mui/material';
+import { useEffect } from 'react'
+import { useAuth } from 'context/AuthContext';
 
 const columns = [
     { id: 'date', label: 'Date', minWidth: 125 },
@@ -21,13 +23,20 @@ const columns = [
 function createData(date, time, duration, session, guest , status_id) {
     return { date, time, duration, session, guest, status_id };
 }
-
-const rows = [
-    createData('17 nov', '10:00AM', '30 mins', '30 Minutes Math Session', 'Elie Mounif', 'Canceled'),
-    createData('17 nov', '10:00AM', '30 mins', '30 Minutes Math Session', 'Elie Mounif', 'Canceled')
-]
   
-export default function BookingsTable() {
+export default function BookingsTable({sessions}) {
+
+    const { currentUser } = useAuth();
+
+    const rows = sessions.map((session) => {
+        const date = new Date(session['date']).toDateString()
+        const time = new Date(session['date']).toLocaleTimeString()
+        const duration = session.sessionType.duration + ' mins'
+        const name = session.sessionType.title
+        const user = session.guest._id === currentUser._id ? session.sessionType.owner.name : session.guest.name
+        const status = session.isCanceled ? 'Canceled' : 'Upcoming'
+        return createData(date, time, duration, name, user, status)
+    })
 
     return (
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -53,11 +62,11 @@ export default function BookingsTable() {
                         {columns.map((column) => {
                             const value = row[column.id];
                             return (
-                            <TableCell key={column.id} align={column.align}>
-                                {column.format && typeof value === 'number'
-                                ? column.format(value)
-                                : value}
-                            </TableCell>
+                                <TableCell key={column.id} align={column.align}>
+                                    {column.format && typeof value === 'number'
+                                    ? column.format(value)
+                                    : value}
+                                </TableCell>
                             );
                         })}
                         </TableRow>

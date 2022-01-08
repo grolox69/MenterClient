@@ -1,10 +1,14 @@
 {
-  "name": "frontend",
+  "name": "menter-frontend",
   "version": "1.0.0",
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "description": "This is menter's frontend client.",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/grolox69/MenterClient.git"
+  },
   "keywords": [],
-  "author": "",
+  "author": "Karl Gharios",
   "license": "ISC",
   "dependencies": {
     "@emotion/react": "^11.5.0",

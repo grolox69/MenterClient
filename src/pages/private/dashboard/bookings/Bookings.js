@@ -9,8 +9,12 @@ import {
     CircularProgress
 } from '@mui/material';
 import BookingsTable from 'components/content/BookingsTable';
+import { useAxiosFetch } from 'hooks/useAxios';
 
 export default function Bookings() {
+
+    const {response, loading, error} = useAxiosFetch('dashboard/bookings');
+
     return (
         <Box>
             <Grid container mt={5} mb={6} sx={{display: 'flex', alignItems: 'center'}}>
@@ -35,7 +39,7 @@ export default function Bookings() {
                         label="View"
                         sx={{width: 200}}
                         autoWidth
-                        //value={}
+                        defaultValue={10}
                         // onChange={}
                     >
                         <MenuItem value={10}>Upcoming Bookings</MenuItem>
@@ -45,8 +49,9 @@ export default function Bookings() {
                     </Select>
                 </Grid>
             </ Grid>
-
-            <BookingsTable />
+            {loading && <CircularProgress/>}
+            {!loading && response && <BookingsTable sessions={response} /> }
+            
         </Box>
     )
 }
