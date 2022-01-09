@@ -1,4 +1,4 @@
-export const availableSlots = function(slots, events) {
+export const removeBookings = function(slots, events) {
     
     let tmp = slots
     events.forEach((evt) => {

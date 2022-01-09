@@ -5,7 +5,6 @@ import {
     Select,
     MenuItem,
     InputLabel,
-    Button,
     CircularProgress
 } from '@mui/material';
 import BookingsTable from 'components/content/BookingsTable';

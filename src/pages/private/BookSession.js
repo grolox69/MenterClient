@@ -34,7 +34,7 @@ export default function BookSession() {
                         </Typography>
                     </Grid>
                     <Grid item ml={21}>
-                        <CalendarPicker owner={response.user.name} sessionType={response.sessionType} />
+                        <CalendarPicker owner={response.user.name} sessionType={response.sessionType} sessions={response.user.sessions} />
                     </Grid>
                 </Grid>
             }

@@ -20,6 +20,7 @@ import {
   LocalizationProvider
 } from '@mui/lab';
 import { getSlots } from 'helpers/availabilities';
+import { removeBookings } from 'helpers/reservations';
 import { useAuth } from 'context/AuthContext';
 import { toast } from 'react-toastify';
 import { axiosPost } from 'hooks/useAxios';
@@ -72,7 +73,7 @@ const getAvailableTimeSlots = (date, slots) => {
   }
 }
 
-export default function CalendarPicker({owner, sessionType}) {
+export default function CalendarPicker({owner, sessionType, sessions}) {
   const { currentUser } = useAuth();
   const { vanity_name, slug } = useParams();
   let navigate = useNavigate();
@@ -82,8 +83,9 @@ export default function CalendarPicker({owner, sessionType}) {
   const [timeSlots, setTimeSlots] = useState();
   
   const allSlots = getSlots(sessionType, Intl.DateTimeFormat().resolvedOptions().timeZone);
+  const slots = removeBookings(allSlots, sessions)
 
-  const availableSlots = getAvailableSlots(allSlots);
+  const availableSlots = getAvailableSlots(slots);
 
   const [day, setDay] = useState();
   const [time, setTime] = useState();

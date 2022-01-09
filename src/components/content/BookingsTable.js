@@ -7,7 +7,6 @@ import {
     TableBody,
     TableRow,
 } from '@mui/material';
-import { useEffect } from 'react'
 import { useAuth } from 'context/AuthContext';
 
 const columns = [
