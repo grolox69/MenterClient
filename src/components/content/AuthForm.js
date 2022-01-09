@@ -4,8 +4,6 @@ import {
     Container,
     Avatar,
     Typography,
-    FormControlLabel,
-    Checkbox,
     Grid,
     Link as FancyLink
 } from '@mui/material';
@@ -47,7 +45,6 @@ export function AuthForm({isSignIn}) {
                 <Typography component="h1" variant="h5" mb={2}>
                     {isSignIn ? 'Sign in' : 'Sign up'}
                 </Typography> 
-                {error && <p >{error}</p>}
                 <Box
                     component="form"
                     autoComplete="off"
@@ -90,13 +87,10 @@ export function AuthForm({isSignIn}) {
                         required
                         
                     />
-                     <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                    />
+                    {error && <p> {error.message} </p>}
                     <LoadingButton
                         type="submit"
-                        loading={loading}
+                        loading={loading && !error}
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
@@ -104,19 +98,14 @@ export function AuthForm({isSignIn}) {
                         {isSignIn ? 'Sign in' : 'Register'}
                     </LoadingButton>
                     <Grid container>
-                        <Grid item xs>
-                            <FancyLink to="/" underline='hover' component={Link}>
-                                {isSignIn ? 'Forgot password?' : ''}
-                            </FancyLink>
-                        </Grid>
                         <Grid item>
                             {isSignIn ? 
                                 <FancyLink to="/register" underline='hover' component={Link}>
-                                    Don't have an account? Register
+                                    Don't have an account? Register.
                                 </FancyLink>
                                 :
                                 <FancyLink to="/login" underline='hover' component={Link}>
-                                    Already Registered? Sign In
+                                    Already Registered? Sign In.
                                 </FancyLink>
                             }
                         </Grid>

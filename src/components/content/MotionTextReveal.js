@@ -25,7 +25,7 @@ const line = "Scheduling tutoring sessions made easy with Menter, avoiding the b
 
 export default function MotionTextReveal() {
     return (
-        <Typography component={motion.h3} variants={sentence} initial="hidden" animate="visible" variant="h5" align="center" color="text.secondary" paragraph>
+        <Typography component={motion.h3} variants={sentence} initial="hidden" animate="visible" variant="h6" align="center" color="text.secondary" paragraph>
             {line.split("").map((char, index) => {
                 return (
                     <motion.span key={char + "_" + index} variants={letter}>

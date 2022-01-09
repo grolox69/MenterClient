@@ -1,7 +1,6 @@
 import {
     Box,
     InputLabel,
-    FormGroup,
     Link as FancyLink,
     Button,
     Grid

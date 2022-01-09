@@ -15,7 +15,7 @@ export default function Landing() {
                 <Grid item md={5} mt={5} sx={{ pt: 4, pr: 4, pl: 4 }}>
                     <Typography
                         component="h1"
-                        variant="h2"
+                        variant="h3"
                         align="center"
                         color="text.primary"   
                     >
@@ -23,7 +23,7 @@ export default function Landing() {
                     </Typography>
                     <Typography
                         component="h1"
-                        variant="h2"
+                        variant="h3"
                         align="center"
                         color="primary"
                         gutterBottom

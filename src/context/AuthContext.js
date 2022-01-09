@@ -21,7 +21,7 @@ export function AuthProvider({ children }) {
 
     useEffect(() => {
         if (error) setError(null);
-    }, [location.pathname])
+    }, [location.pathname, error])
 
     let register = (email, password, name) => {
         setLoading(true);

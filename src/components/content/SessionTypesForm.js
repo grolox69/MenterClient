@@ -6,7 +6,6 @@ import {
     Grid,
     Typography,
     Checkbox,
-    FormControlLabel,
     Stack
 } from '@mui/material';
 import TextInput from 'components/common/controls/TextInput';

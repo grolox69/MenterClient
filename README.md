@@ -8,11 +8,7 @@
 
 #### <b>Development:</b>
 ```
- npm run dev
-```
-#### <b>Test:</b>
-```
- npm run test
+ npm start
 ```
 #### <b>Deploy to Heroku:</b>
 ```
