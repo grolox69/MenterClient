@@ -6,7 +6,10 @@ import {
     Grid,
     Typography,
     Checkbox,
-    Stack
+    Stack,
+    Select,
+    MenuItem,
+    FormControl
 } from '@mui/material';
 import TextInput from 'components/common/controls/TextInput';
 import useForm from 'hooks/useForm';
@@ -190,6 +193,43 @@ export default function SessionTypesForm({isCreate, data}) {
                     multiline
                     rows={3}
                 />
+            </Grid>
+
+            <Grid item xs={12} md={6} sx={{ mb: 2 }}>
+                <FormControl fullWidth>
+                    <InputLabel id="Category">Category</InputLabel>
+                    <Select
+                        labelId="Category"
+                        id="category"
+                        defaultValue={0}
+                        label="Category"
+                        // onChange={handleChange}
+                    >
+                        <MenuItem value={0}></MenuItem>
+                        <MenuItem value={10}>Science</MenuItem>
+                        <MenuItem value={20}>Literature</MenuItem>
+                        <MenuItem value={30}>Arts</MenuItem>
+                    </Select>
+                </FormControl>
+            </Grid>
+
+            <Grid item xs={12} md={6} sx={{ mb: 2 }}>
+                <FormControl fullWidth>
+                    <InputLabel id="Level">Level</InputLabel>
+                    <Select
+                        labelId="Level"
+                        id="level"
+                        defaultValue={0}
+                        label="Level"
+                        // onChange={handleChange}
+                    >
+                        <MenuItem value={0}></MenuItem>
+                        <MenuItem value={10}>Elementary School</MenuItem>
+                        <MenuItem value={20}>Junior School</MenuItem>
+                        <MenuItem value={30}>Senior School</MenuItem>
+                        <MenuItem value={40}>Higher Education</MenuItem>
+                    </Select>
+                </FormControl>
             </Grid>
 
             <Grid item xs={12} md={6} sx={{ mb: 2 }}>
